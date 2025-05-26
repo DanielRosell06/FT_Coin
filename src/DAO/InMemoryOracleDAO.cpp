@@ -15,7 +15,11 @@ double InMemoryOracleDAO::buscarCotacaoPorData(const std::string& data) {
             return o.getCotacao();
         }
     }
-    return 0.0; // Retorna 0 se não encontrar (em produção, tratar erro)
+    // Se não encontrar, gera uma cotação aleatória entre 150 e 160 para esta data
+    double cotacaoAleatoria = 150.0 + static_cast<double>(rand()) / RAND_MAX * 10.0;
+    Oracle novaOracle(data, cotacaoAleatoria);
+    cotacoes.push_back(novaOracle);
+    return cotacaoAleatoria;
 }
 
 std::vector<Oracle> InMemoryOracleDAO::listarTodasCotacoes() {
